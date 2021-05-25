@@ -47,3 +47,28 @@ def gaussian_method(A: np.ndarray, b: np.ndarray) -> np.ndarray:
             X[perm_index_i] -= concat_A[i, j] * X[perm_index_j]
 
     return X
+
+
+def make_simpson_coefs(a: float, b: float, n: int):
+    h = (b - a) / n
+
+    coefs = [0.0 for _ in range(n + 1)]
+    points = [a + h * k for k in range(n + 1)]
+
+    coefs[0] = h / 3
+    for j in range(1, n // 2 - 1 + 1):
+        coefs[2 * j] = h / 3 * 2.0
+
+    for j in range(1, n // 2 + 1):
+        coefs[2 * j - 1] = h / 3 * 4.0
+
+    coefs[n] = h / 3
+
+    return coefs, points
+
+
+def kronecker_symbol(i: int, j: int):
+    if i == j:
+        return 1.0
+    else:
+        return 0.0
